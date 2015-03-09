@@ -211,8 +211,9 @@ li ol, li ul {
 
 .content_width
 {
-    width:65%;
-    margin-left:10%;
+    //width:100%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 #container {
@@ -303,8 +304,8 @@ img.header-image { padding-top: 10px;
 }
 
 #content {
-    float: left;
-    width: 89%;
+    //float: left;
+    //width: 89%;
 }
 
 article {

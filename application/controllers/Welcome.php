@@ -57,6 +57,7 @@ class Welcome extends Application {
     
         public function __construct() {
             parent::__construct();
+            $this->load->model('posts');
         }
     
 	public function index()
@@ -64,9 +65,29 @@ class Welcome extends Application {
 		$this->data['pagebody'] = 'welcome';
                 
                 /* Get Latest Posts */
-                $sourcePosts = $this->posts->all();
+                if (isset($_SESSION['user_id']))
+                {
+                    $this->data['posts'] = $this->posts->get_all_posts($_SESSION['user_id']);
+                }
+                else
+                {
+                    $this->data['posts'] = $this->posts->get_all_posts();
+                }
                 
-                $this->data['latestposts'] = $this->parser->parse('_latestposts', $sourcePosts, true);
+                 //check to see if your an admin, if so load admin controls
+                if (isset($_SESSION['admin']))
+                {
+                    $this->data['latestposts'] = $this->parser->parse('_latestpostsadmin', $this->data, true);
+                }
+                else
+                {
+                    $this->data['latestposts'] = $this->parser->parse('_latestposts', $this->data, true);
+                }
+                
+                //unset sign up error
+                unset($_SESSION['signup_error']);
+                //unset sign in error
+                unset($_SESSION['login_error']);
                 
                 $this->render();
 	}
